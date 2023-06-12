@@ -1,0 +1,31 @@
+<div class="container-fluid w-100 h-100">
+  <div class="row gy-3 gx-2">
+    <div class="col-12">
+        <div class="d-flex justify-content-center bg-success">
+          <h1 class="text-light" >Lista post</h1>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3" *ngFor="let post of posts">
+      <div class="card h-100">
+        <div class="card-header d-flex flex-column" *ngIf="getUser(post)">
+            <h2 >Post {{post.id}}</h2>
+            <h4 class="w-100">{{getUser(post)!.name}}</h4>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">{{post.title}}</h2>
+          <h4 class="card-text">{{post.body}}</h4>
+        </div>
+        <div class="card-footer d-flex flex-column">
+          <div class="com d-flex align-items-center justify-content-between py-3">
+            <button class="btn btn-outline-success" (click)="modifica(post)">Modifica</button>
+            <button class="btn btn-outline-danger" (click)="modifica(post)">Rimuovi</button>
+          </div>
+            <div class="com d-flex flex-column align-items-center" *ngFor="let comment of getComments(post).slice(0, 3)">
+                <h4 class="fs-6">{{comment.body}}</h4>
+                <h4 class="fs-6">{{comment.email}}</h4>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
