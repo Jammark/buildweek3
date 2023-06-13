@@ -8,6 +8,7 @@ export interface User {
         website: string,
         address: Address,
         company: Company,
+        imageUrl?: string,
 
 }
 

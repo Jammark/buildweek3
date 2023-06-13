@@ -16,11 +16,17 @@
             <textarea type="text" id="body" [(ngModel)]="post!.body" name="body"
             required #body="ngModel" class="w-100" rows="5"></textarea>
             <br>
+            <label for="imageUrl">Immagine post</label>
+            <input type="text" id="imageUrl" [(ngModel)]="post!.imageUrl" name="imageUrl"
+            required #imageUrl="ngModel" class="w-100">
+            <br>
+      <!--
             <label for="userId">Utente</label>
             <select id="userId" name="userId" required #userId="ngModel" class="w-100"
             [(ngModel)]="post!.userId">
             <option *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
           </select>
+          -->
           </div>
       </div>
       <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-3">Invia</button>

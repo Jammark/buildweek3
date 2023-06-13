@@ -24,6 +24,10 @@ export class PostsService {
     return this.http.get<Comment[]>(`${environment.baseURL}post-comment`);
   }
 
+  addComment(item : Partial<Comment>):Observable<boolean>{
+    return this.http.post<boolean>(`${environment.baseURL}post-comment`, item);
+  }
+
   register(item:Post):void{
     this.postSubj.next(item);
   }

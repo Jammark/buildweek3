@@ -4,6 +4,7 @@ import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
 import { PostsService } from 'src/app/service/posts.service';
 import { UserService } from 'src/app/service/user.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-gestione-post',
@@ -13,9 +14,10 @@ import { UserService } from 'src/app/service/user.service';
 export class GestionePostComponent implements OnInit, OnDestroy{
 
   post?:Post | null;
-  users: User[] = [];
+  //users: User[] = [];
 
-  constructor(private srv: PostsService, private usrv: UserService,
+
+  constructor(private srv: PostsService, private usrv: AuthService,
     private router: Router){}
 
   ngOnInit(): void {
@@ -29,9 +31,13 @@ export class GestionePostComponent implements OnInit, OnDestroy{
         };
       }
     });
-    this.usrv.getUsers().subscribe(items => {
-      this.users = items;
+
+    this.usrv.user$.subscribe(item => {
+      if(this.post){
+        this.post!.userId = item?.user.id;
+      }
     });
+
   }
 
   submit():void{

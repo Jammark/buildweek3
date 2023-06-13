@@ -9,20 +9,33 @@
       <div class="card h-100">
         <div class="card-header d-flex flex-column" *ngIf="getUser(post)">
             <h2 >Post {{post.id}}</h2>
-            <h4 class="w-100">{{getUser(post)!.name}}</h4>
+            <div class="d-flex align-items-center">
+              <img class="img-fluid rounded-circle user-img" [src]="getUser(post)!.imageUrl">
+            <h4 class="w-100 mx-2">{{getUser(post)!.name}}</h4>
+          </div>
         </div>
+        <img *ngIf="post.imageUrl" class="card-img-top img-fluid" [src]="post.imageUrl"/>
         <div class="card-body">
           <h2 class="card-title">{{post.title}}</h2>
+
           <h4 class="card-text">{{post.body}}</h4>
         </div>
         <div class="card-footer d-flex flex-column">
           <div class="com d-flex align-items-center justify-content-between py-3">
             <button class="btn btn-outline-success" (click)="modifica(post)">Modifica</button>
-            <button class="btn btn-outline-danger" (click)="modifica(post)">Rimuovi</button>
+            <button class="btn btn-outline-primary" (click)="commenta(post)">Commenta</button>
+            <button class="btn btn-outline-danger" (click)="rimuovi(post)">Rimuovi</button>
           </div>
-            <div class="com d-flex flex-column align-items-center" *ngFor="let comment of getComments(post).slice(0, 3)">
+          <div class="w-100" *ngIf="forms.indexOf(post.id!) != -1">
+              <form #form="ngForm" (ngSubmit)="inviaCommento(form, post.id!)">
+                <label for="body">Aggiungi commento</label>
+                <input name="body" required ngModel class="form-control" id="body" type="text">
+               <button type="submit" class="btn btn-outline-warning" [disabled]="form.invalid">Invia</button>
+              </form>
+          </div>
+            <div class="com d-flex flex-column align-items-center" *ngFor="let comment of getComments(post)">
                 <h4 class="fs-6">{{comment.body}}</h4>
-                <h4 class="fs-6">{{comment.email}}</h4>
+                <h4 class="fs-6">{{getName(comment)}}</h4>
             </div>
         </div>
       </div>
