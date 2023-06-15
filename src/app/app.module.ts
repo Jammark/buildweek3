@@ -14,6 +14,10 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { TokenInterceptor } from './components/auth/token.interceptor';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AlbumsComponent } from './components/albums/albums.component';
+import { FotosComponent } from './components/fotos/fotos.component';
+import { CatalogoFotoComponent } from './components/catalogo-foto/catalogo-foto.component';
+import { GestioneFotoComponent } from './components/gestione-foto/gestione-foto.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,11 @@ import { ProfileComponent } from './components/profile/profile.component';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    AlbumsComponent,
+    FotosComponent,
+    CatalogoFotoComponent,
+    GestioneFotoComponent
   ],
   imports: [
     BrowserModule,

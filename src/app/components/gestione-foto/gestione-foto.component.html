@@ -1,0 +1,33 @@
+<div class="d-flex flex-column w-100 justify-content-center align-items-center py-2">
+  <ng-container *ngIf="!foto?.id else altro">
+    <h1 class="text-center">Aggiungi nuova foto</h1>
+  </ng-container>
+  <ng-template #altro>
+    <h1 class="text-center">Mofifica foto esistente</h1>
+  </ng-template>
+  <form #form="ngForm" (ngSubmit)="submit()" class="w-50">
+    <div ngModelGroup="post" #postGroup="ngModelGroup" id="post">
+        <div class="form-group py-2">
+          <label for="title">Titolo foto</label>
+          <input type="text" id="title" [(ngModel)]="foto!.title" name="title"
+          required #title="ngModel" class="w-100 mb-2">
+          <br>
+          <label for="url">Indirizzo foto</label>
+          <textarea type="text" id="url" [(ngModel)]="foto!.url" name="url"
+          required #body="ngModel" class="w-100 mb-2" rows="5"></textarea>
+          <br>
+          <img class="img-fluid rounded w-100 my-2" *ngIf="foto?.url && foto!.url.length > 0"
+          [src]="foto?.url"/>
+        </div>
+    </div>
+    <ng-container *ngIf="!carica else charge">
+    <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-3">Salva</button>
+  </ng-container>
+  <ng-template #charge>
+    <button class="btn btn-primary mt-3" type="button" disabled>
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Attendere...
+    </button>
+  </ng-template>
+  </form>
+</div>

@@ -41,6 +41,15 @@
 
             </li>
 
+            <li class="nav-item" >
+              <a *ngIf="user"
+                  class="nav-link"
+                  [routerLink]="['/albums']"
+                  routerLinkActive="active"
+                  >Catalogo album</a>
+
+          </li>
+
 
           </ul>
 

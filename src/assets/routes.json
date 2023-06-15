@@ -6,4 +6,5 @@
   "/post-comment/:id": "/comments/:id",
   "/user": "/users",
   "/user/:id" : "/users/:id"
+
 }

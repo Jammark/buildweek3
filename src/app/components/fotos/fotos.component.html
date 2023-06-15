@@ -1,0 +1,18 @@
+<div class="container-fluid w-100">
+  <div class="row gy-3 gx-2">
+    <div class="col-12 d-flex">
+      <button class="btn" [routerLink]="['/albums']">Albums</button>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3" *ngFor="let foto of photos">
+        <div class="card h-100">
+          <img class="card-img-top" [src]="foto.url">
+          <div class="card-body">
+            <h2 class="card-title">{{foto.title}}</h2>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-success" (click)="modifica(foto)">Modifica</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
