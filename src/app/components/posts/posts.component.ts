@@ -19,6 +19,9 @@ export class PostsComponent implements OnInit, AfterContentChecked{
   comments : Comment[];
   users : User[];
   forms: number[] =[];
+  remove: number[]=[];
+  removing: boolean = false;
+  userId? : number;
 
   constructor(private srv: PostsService, private usrv: UserService,
     private router: Router){
@@ -37,10 +40,20 @@ export class PostsComponent implements OnInit, AfterContentChecked{
         this.usrv.getUsers().subscribe(items => {
           this.users = items;
         });
+        this.usrv.user$.subscribe(item => {
+          this.userId = item?.id;
+        });
   }
 
   ngAfterContentChecked(): void {
-
+    if(this.removing){
+      this.srv.post$.subscribe(item => {
+        if(item){
+        this.removing = false;
+        this.remove.splice(this.remove.indexOf(item.id!), 1);
+        }
+      });
+    }
   }
 
   getComments(item: Post):Comment[]{
@@ -50,6 +63,10 @@ export class PostsComponent implements OnInit, AfterContentChecked{
   getName(item:Comment):string | undefined{
     let name = this.users.find(user => user.email == item.email)?.name;
     return name? name : item.email;
+  }
+
+  getCommentImg(item:Comment):string | undefined{
+    return this.users.find(user => user.email == item.email)?.imageUrl;
   }
 
 getUser(item:Post):User | undefined{
@@ -62,7 +79,31 @@ modifica(item:Post):void{
 }
 
 rimuovi(item:Post):void{
+  this.srv.register(item);
+  this.remove.push(item.id!);
+  this.srv.rimuovi(item).subscribe({
+    error: (err: Error) =>{
+      console.error(err);
+    },
+    complete: () => {
+      this.srv.getPosts().subscribe(items => {
+        this.posts = items.reverse();
+        this.removing = true;
+      });
+    }
+  });
+}
 
+canModify(item:Post):boolean{
+  return item.userId == this.userId;
+}
+
+isRemoving(item:Post):boolean{
+  if( this.remove.find(val => val == item.id)){
+    return true;
+  }else{
+    return false;
+  };
 }
 
 commenta(item:Post):void{

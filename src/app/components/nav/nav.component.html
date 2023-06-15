@@ -47,7 +47,7 @@
           <h6 >
             Banvenuto {{ user?.user?.name }}
         </h6>
-        <img class="rounded-circle" [src]="utente?.imageUrl">
+        <img class="rounded-circle mx-2" [src]="utente?.imageUrl">
         <button type="button" class="btn btn-danger ms-2 float-end" *ngIf="user" (click)="logout()">Logout</button>
 
       </div>

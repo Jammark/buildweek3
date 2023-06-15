@@ -4,5 +4,12 @@
 
 .user-img{
   height: 30px;
-  width: auto;
+  width: 30px;
+  object-fit:cover;
+}
+
+.imgC{
+  height: 20px;
+  width: 20px;
+  object-fit:cover;
 }

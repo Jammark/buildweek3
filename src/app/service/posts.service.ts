@@ -43,4 +43,8 @@ export class PostsService {
   update(item:Post):Observable<boolean>{
     return this.http.put<boolean>(`${environment.baseURL}post/${item.id}`, item);
   }
+
+  rimuovi(item:Post):Observable<boolean>{
+    return this.http.delete<boolean>(`${environment.baseURL}post/${item.id}`);
+  }
 }
