@@ -35,6 +35,18 @@
       <h2 class="w-50">{{user.website}}</h2>
     </div>
 
+
+      <div class="d-flex justify-content-between">
+        <h2 class="text-start w-50">Indirizzo</h2>
+        <h2 class="w-50 fs-6">{{user.address.street}} &nbsp;{{user.address.suite}} &nbsp;{{user.address.city}}</h2>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <h2 class="text-start w-50">Azienda</h2>
+        <h2 class="w-50 fs-6">{{user.company.name}}, &nbsp;{{user.company.catchPhrase}}</h2>
+      </div>
+
+
     <form #form="ngForm" (ngSubmit)="salva(form)">
       <div class="form-group">
         <label for="imageUrl">Aggiungi immagine</label>

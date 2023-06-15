@@ -1,10 +1,13 @@
-<div class="container-fluid w-100 h-100">
-  <div class="row gy-3 gx-2">
+<div class="container-fluid w-100 h-100 p-0">
+  <div class="row">
     <div class="col-12">
-        <div class="d-flex justify-content-center bg-success">
-          <h1 class="text-light" >Lista post</h1>
-        </div>
-    </div>
+      <div class="d-flex justify-content-center bg-success w-100">
+        <h1 class="text-light" >Lista post</h1>
+      </div>
+  </div>
+  </div>
+  <div class="row gy-3 gx-2 p-2">
+      <ng-container *ngIf="posts && posts.length > 0 else charge">
     <div class="col-6 col-md-4 col-lg-3" *ngFor="let post of posts">
       <ng-container *ngIf="!isRemoving(post) else alter">
       <div class="card h-100">
@@ -25,24 +28,37 @@
           <div class="com d-flex align-items-center justify-content-between py-3">
             <button class="btn btn-outline-success" (click)="modifica(post)" *ngIf="canModify(post)">Modifica</button>
             <button class="btn btn-outline-primary" (click)="commenta(post)">Commenta</button>
-            <button class="btn btn-outline-danger" (click)="rimuovi(post)" *ngIf="canModify(post)">Rimuovi</button>
+            <button class="btn btn-outline-danger" (click)="showModal()" *ngIf="canModify(post)">Rimuovi</button>
           </div>
+          <ng-container *ngIf="!isComment(post) else altro">
           <div class="w-100" *ngIf="forms.indexOf(post.id!) != -1">
-              <form #form="ngForm" (ngSubmit)="inviaCommento(form, post.id!)">
+              <form #form="ngForm" (ngSubmit)="inviaCommento(form, post)">
                 <label for="body">Aggiungi commento</label>
-                <input name="body" required ngModel class="form-control" id="body" type="text">
+                <div class="d-flex w-100">
+                <input name="body" required ngModel class="form-control flex-fill" id="body" type="text">
                <button type="submit" class="btn btn-outline-warning" [disabled]="form.invalid">Invia</button>
+              </div>
               </form>
           </div>
-            <div class="com d-flex flex-column align-items-center" *ngFor="let comment of getComments(post)">
-                <h4 class="fs-6">{{comment.body}}</h4>
+        </ng-container>
+        <ng-template #altro>
+          <div class="w-100 d-flex justify-content-center align-items-center p-4">
+          <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        </ng-template>
+            <div class="com d-flex flex-column align-items-center p-2" *ngFor="let comment of getComments(post)">
+
                 <div class="d-flex">
                   <img class="img-fluid rounded-circle imgC mx-2" [src]="getCommentImg(comment)" *ngIf="getCommentImg(comment)">
                 <h4 class="fs-6">{{getName(comment)}}</h4>
               </div>
+              <h4 class="fs-6">{{comment.body}}</h4>
             </div>
         </div>
       </div>
+
     </ng-container>
     <ng-template #alter>
       <div class="w-100 h-100 d-flex justify-content-center align-items-center">
@@ -51,6 +67,35 @@
       </div>
     </div>
     </ng-template>
+    <div class="container">
+      <!-- Modal -->
+     <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+              <p>Sicuro di voler procedere con l'operazione?</p>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+               <button id="confirm" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="rimuovi(post)">Conferma</button>
+             </div>
+           </div>
+         </div>
+       </div>
+           </div>
     </div>
+  </ng-container>
+  <ng-template #charge>
+    <div class="col-12 d-flex justify-content-center align-items-center">
+      <div class="spinner-grow text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
   </div>
 </div>
+

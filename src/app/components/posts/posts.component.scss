@@ -13,3 +13,15 @@
   width: 20px;
   object-fit:cover;
 }
+
+.modal-content{
+  --bs-modal-border-color: green;
+}
+
+.modal-footer{
+  --bs-modal-footer-border-color: green;
+}
+
+.modal-header{
+  --bs-modal-header-border-color: green;
+}

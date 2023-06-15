@@ -7,6 +7,7 @@ import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-posts',
@@ -22,6 +23,8 @@ export class PostsComponent implements OnInit, AfterContentChecked{
   remove: number[]=[];
   removing: boolean = false;
   userId? : number;
+  comment: number[] = [];
+  commenting: boolean = false;
 
   constructor(private srv: PostsService, private usrv: UserService,
     private router: Router){
@@ -51,7 +54,17 @@ export class PostsComponent implements OnInit, AfterContentChecked{
         if(item){
         this.removing = false;
         this.remove.splice(this.remove.indexOf(item.id!), 1);
+        this.srv.deregister();
         }
+      });
+    }
+    if(this.commenting){
+      this.srv.post$.subscribe(item => {
+          if(item){
+            this.commenting = false;
+            this.comment.splice(this.comment.indexOf(item.id!), 1);
+            this.srv.deregister();
+          }
       });
     }
   }
@@ -106,23 +119,37 @@ isRemoving(item:Post):boolean{
   };
 }
 
+isComment(item:Post):boolean{
+  return this.comment.find(val => val == item.id)? true : false;
+}
+
 commenta(item:Post):void{
   this.forms.push(item.id!);
 }
 
-inviaCommento(form:NgForm, id:number){
-    form.value['postId'] = id;
+ showModal(){
+
+  var myModal = new bootstrap.Modal(document.getElementById('exampleModal') as HTMLElement);
+  myModal.show();
+
+}
+
+inviaCommento(form:NgForm, post:Post){
+    form.value['postId'] = post.id;
     this.usrv.user$.subscribe(item => {
       form.value['email'] =  item?.email;
+      this.commenting = true;
+      this.comment.push(post.id!);
       this.srv.addComment(form.value).subscribe({
         error: (err: Error) =>{
           console.error(err);
         },
         complete: () => {
-          let index = this.forms.indexOf(id);
+          let index = this.forms.indexOf(post.id!);
           this.forms.splice(index, 1);
           this.srv.getComments().subscribe(items => {
             this.comments = items;
+            this.srv.register(post);
           });
         }
       });
