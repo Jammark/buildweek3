@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
 import { PostsService } from 'src/app/service/posts.service';
@@ -14,6 +15,7 @@ import { AuthService } from '../auth/auth.service';
 export class GestionePostComponent implements OnInit, OnDestroy{
 
   post?:Post | null;
+
   //users: User[] = [];
 
 
@@ -37,6 +39,8 @@ export class GestionePostComponent implements OnInit, OnDestroy{
         this.post!.userId = item?.user.id;
       }
     });
+
+
 
   }
 

@@ -52,8 +52,15 @@
         <label for="imageUrl">Aggiungi immagine</label>
         <input type="text" name="imageUrl" id="imageUrl" class="form-control" required ngModel>
     </div>
-    <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-3">Salva</button>
-
+    <ng-container *ngIf="!carica else charge">
+      <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-3">Salva</button>
+    </ng-container>
+    <ng-template #charge>
+      <button class="btn btn-primary mt-3" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Attendere...
+      </button>
+    </ng-template>
     </form>
     </div>
   </div>

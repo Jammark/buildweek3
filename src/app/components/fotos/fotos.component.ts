@@ -16,6 +16,7 @@ export class FotosComponent implements OnInit, OnDestroy, AfterContentChecked{
   sub!: Subscription;
   remove: number[] = [];
   removing:boolean=false;
+  albumId?:number;
 
 constructor(private router: ActivatedRoute, private srv: AlbumService,
   private rt: Router){}
@@ -39,7 +40,14 @@ constructor(private router: ActivatedRoute, private srv: AlbumService,
   ricaricaLista(add?:Function):void{
     this.sub = this.router.params.subscribe(params => {
       const id = +params['id'];
-      this.srv.getPhotos(id).subscribe(lista => this.photos = lista.reverse());
+      this.albumId = id;
+      this.srv.getPhotos(id).subscribe(lista => {
+        this.photos = lista.reverse();
+        if(add){
+          add!();
+        }
+      });
+
     });
   }
 
@@ -48,8 +56,10 @@ constructor(private router: ActivatedRoute, private srv: AlbumService,
   }
 
   modifica(item:Foto):void{
+    if(this.albumId){
     this.srv.registraFoto(item);
-    this.rt.navigate(['/albums/gestioneFoto']);
+    this.rt.navigate(['/albums/gestioneFoto/'+ this.albumId!]);
+    }
   }
 
   isRemoving(item:Foto):boolean{
@@ -71,7 +81,7 @@ constructor(private router: ActivatedRoute, private srv: AlbumService,
         },
         complete: ()=>{
 
-          this.ricaricaLista(()=>{
+          this.ricaricaLista(() => {
             this.removing = true;
             this.srv.registraFoto(item);
           });

@@ -63,7 +63,7 @@ const routes: Routes = [
         component: AlbumsComponent
       },
       {
-        path: 'gestioneFoto',
+        path: 'gestioneFoto/:id',
         component: GestioneFotoComponent
       }
     ]

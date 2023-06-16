@@ -17,7 +17,7 @@
             <h2 class="card-title">{{album.title}}</h2>
           </div>
           <div class="card-footer d-flex justify-content-end px-2 border-primary">
-              <button class="btn btn-outline-warning" [routerLink]="['gestioneFoto']"
+              <button class="btn btn-outline-warning" [routerLink]="['gestioneFoto', album.id]"
               (click)="registra(album)">
             <span class="d-flex align-items-center justify-content-center p-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffc107" class="bi bi-plus-lg" viewBox="0 0 16 16">

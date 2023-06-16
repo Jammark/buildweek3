@@ -19,6 +19,8 @@ import { FotosComponent } from './components/fotos/fotos.component';
 import { CatalogoFotoComponent } from './components/catalogo-foto/catalogo-foto.component';
 import { GestioneFotoComponent } from './components/gestione-foto/gestione-foto.component';
 
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +44,8 @@ import { GestioneFotoComponent } from './components/gestione-foto/gestione-foto.
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

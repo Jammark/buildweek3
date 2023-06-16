@@ -1,14 +1,27 @@
 <div class="container-fluid w-100 h-100 p-0">
   <div class="row">
+
     <div class="col-12">
-      <div class="d-flex justify-content-center bg-success w-100">
+      <div class="d-flex justify-content-center bg-success w-100 align-items-center">
         <h1 class="text-light" >Lista post</h1>
+
+        <button class="add btn btn-outline-light me-4 position-absolute end-0"
+              routerLink="/post">
+            <span class="d-flex align-items-center justify-content-center p-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+              </svg>
+            </span></button>
+
       </div>
   </div>
   </div>
   <div class="row gy-3 gx-2 p-2">
-      <ng-container *ngIf="posts && posts.length > 0 else charge">
-    <div class="col-6 col-md-4 col-lg-4" *ngFor="let post of posts">
+      <ng-container *ngIf="posts && posts.length > 0 else charge"
+        >
+        <ng-container *ngFor="let post of posts">
+          <div class="col-3"></div>
+    <div class="col-6" >
       <ng-container *ngIf="!isRemoving(post) else alter">
       <div class="card h-100">
         <div class="card-header d-flex flex-column" *ngIf="getUser(post)">
@@ -88,6 +101,8 @@
        </div>
            </div>
     </div>
+    <div class="col-3"></div>
+  </ng-container>
   </ng-container>
   <ng-template #charge>
     <div class="col-12 d-flex justify-content-center align-items-center">

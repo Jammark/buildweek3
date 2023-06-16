@@ -12,6 +12,7 @@ import { AuthService } from '../auth/auth.service';
 export class ProfileComponent implements OnInit{
 
   user?: User;
+  carica:boolean=false;
 
   constructor(private srv: UserService, private authSrv: AuthService){}
 
@@ -32,15 +33,18 @@ export class ProfileComponent implements OnInit{
   }
 
   salva(form: NgForm) {
+    this.carica = true;
       form.value['id']= this.user?.id;
 
       this.srv.salvaImmagineUtente(form.value).subscribe( {
         error: (err:Error) => {
         console.log(err);
-
+          this.carica = false;
+          form.reset();
     }, complete: () =>{
         this.getUser();
         form.reset();
+        this.carica = false;
 
 
       }} );

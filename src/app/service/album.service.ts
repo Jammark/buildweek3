@@ -21,6 +21,10 @@ export class AlbumService {
     return this.http.get<Album[]>(`${environment.baseURL}albums`);
   }
 
+  getAlbum(id:number):Observable<Album>{
+    return this.http.get<Album>(`${environment.baseURL}albums/${id}`)
+  }
+
   getPhotos(id:number):Observable<Foto[]>{
     return this.http.get<Foto[]>(`${environment.baseURL}photos?albumId=${id}`);
   }

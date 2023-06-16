@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Foto } from 'src/app/model/foto';
 import { AlbumService } from 'src/app/service/album.service';
 
@@ -13,8 +14,10 @@ export class GestioneFotoComponent implements OnInit, OnDestroy{
 
   foto?:Foto;
   carica:boolean = false;
+  sub!: Subscription;
 
-  constructor(private srv: AlbumService, private router: Router){}
+  constructor(private srv: AlbumService, private router: Router,
+    private rt: ActivatedRoute){}
 
   submit():void{
       this.carica = true;
@@ -46,26 +49,32 @@ export class GestioneFotoComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.srv.album$.subscribe(album => {
-      if(album){
-    this.srv.foto$.subscribe(foto => {
-      if(foto){
-        this.foto = foto!;
-      }else{
-        this.foto = {
-          title: '',
-          url:'',
-          albumId: album!.id
-        };
-        console.log(this.foto);
-      }
+    this.sub = this.rt.params.subscribe(params => {
+      const id = +params['id'];
+      this.srv.getAlbum(id).subscribe(album => {
+        if(album){
+          this.srv.foto$.subscribe(foto => {
+            if(foto){
+              this.foto = foto!;
+            }else{
+              this.foto = {
+                title: '',
+                url:'',
+                albumId: album!.id
+              };
+              console.log(this.foto);
+            }
 
+          });
+        }else{
+          alert('Non puoi accedere alla pagina senza il percorso corretto!');
+          this.router.navigate(['/albums']);
+        }
+      });
     });
-  }else{
-    alert('Non puoi accedere alla pagina senza il percorso corretto!');
-    this.router.navigate(['/albums']);
-  }
-  });
+/*    this.srv.album$.subscribe(album => {
+
+  });*/
   }
 
   ngOnDestroy(): void {

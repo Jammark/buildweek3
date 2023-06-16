@@ -25,3 +25,10 @@
 .modal-header{
   --bs-modal-header-border-color: green;
 }
+
+.add:hover{
+  svg{
+    fill: green;
+  }
+
+}
