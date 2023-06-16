@@ -33,6 +33,10 @@ export class AlbumService {
     return this.http.post<boolean>(`${environment.baseURL}photos`, item);
   }
 
+  cancellaFoto(item:Foto):Observable<boolean>{
+    return this.http.delete<boolean>(`${environment.baseURL}photos/${item.id}`);
+  }
+
   registraAlbum(item:Album):void{
     this.aSubj.next(item);
   }

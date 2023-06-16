@@ -61,6 +61,9 @@ export class GestioneFotoComponent implements OnInit, OnDestroy{
       }
 
     });
+  }else{
+    alert('Non puoi accedere alla pagina senza il percorso corretto!');
+    this.router.navigate(['/albums']);
   }
   });
   }

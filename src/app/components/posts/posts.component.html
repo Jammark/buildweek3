@@ -8,14 +8,14 @@
   </div>
   <div class="row gy-3 gx-2 p-2">
       <ng-container *ngIf="posts && posts.length > 0 else charge">
-    <div class="col-6 col-md-4 col-lg-3" *ngFor="let post of posts">
+    <div class="col-6 col-md-4 col-lg-4" *ngFor="let post of posts">
       <ng-container *ngIf="!isRemoving(post) else alter">
       <div class="card h-100">
         <div class="card-header d-flex flex-column" *ngIf="getUser(post)">
             <h2 >Post {{post.id}}</h2>
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center py-1">
               <img class="img-fluid rounded-circle user-img" [src]="getUser(post)!.imageUrl">
-            <h4 class="w-100 mx-2">{{getUser(post)!.name}}</h4>
+            <h4 class="w-100 mx-2 mb-0">{{getUser(post)!.name}}</h4>
           </div>
         </div>
         <img *ngIf="post.imageUrl" class="card-img-top img-fluid" [src]="post.imageUrl"/>
@@ -28,7 +28,7 @@
           <div class="com d-flex align-items-center justify-content-between py-3">
             <button class="btn btn-outline-success" (click)="modifica(post)" *ngIf="canModify(post)">Modifica</button>
             <button class="btn btn-outline-primary" (click)="commenta(post)">Commenta</button>
-            <button class="btn btn-outline-danger" (click)="showModal()" *ngIf="canModify(post)">Rimuovi</button>
+            <button class="btn btn-outline-danger" (click)="showModal(post.id!)" *ngIf="canModify(post)">Rimuovi</button>
           </div>
           <ng-container *ngIf="!isComment(post) else altro">
           <div class="w-100" *ngIf="forms.indexOf(post.id!) != -1">
@@ -48,13 +48,13 @@
           </div>
         </div>
         </ng-template>
-            <div class="com d-flex flex-column align-items-center p-2" *ngFor="let comment of getComments(post)">
+            <div class="com d-flex flex-column align-items-start p-2" *ngFor="let comment of getComments(post)">
 
                 <div class="d-flex">
                   <img class="img-fluid rounded-circle imgC mx-2" [src]="getCommentImg(comment)" *ngIf="getCommentImg(comment)">
                 <h4 class="fs-6">{{getName(comment)}}</h4>
               </div>
-              <h4 class="fs-6">{{comment.body}}</h4>
+              <h4 class="fs-6 ms-5">{{comment.body}}</h4>
             </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
     </ng-template>
     <div class="container">
       <!-- Modal -->
-     <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal" [id]="'exampleModal'+post.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog">
            <div class="modal-content">
              <div class="modal-header">

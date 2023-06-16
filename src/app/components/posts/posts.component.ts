@@ -127,9 +127,9 @@ commenta(item:Post):void{
   this.forms.push(item.id!);
 }
 
- showModal(){
+ showModal(id:number){
 
-  var myModal = new bootstrap.Modal(document.getElementById('exampleModal') as HTMLElement);
+  var myModal = new bootstrap.Modal(document.getElementById(`exampleModal${id}`) as HTMLElement);
   myModal.show();
 
 }
